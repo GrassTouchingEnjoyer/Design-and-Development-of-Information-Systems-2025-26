@@ -1,7 +1,6 @@
 package App_implimentation;
 
-import utils.utils;
-
+import static utils.utils.print;
 
 public class App_implimentation{
 
@@ -10,7 +9,7 @@ public class App_implimentation{
 	
 	    public static void main(String[] args){
 	
-	        utils.print("Hello, World!");
+	        print("Hello, World!");
 	        
 	        System.exit(0);
 	    }
