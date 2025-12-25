@@ -11,28 +11,38 @@
 ⠀⠀⠀⠀⠀⢠⣿⣿⠿⠋⠁⠀⠀⠀⠀⠉⠳⡄
 ⠀⠀⠀⠀⠀⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈
 
-THIS IS THE READ ME FILE EXPRESS YOURSELVES HERE
 
+				  (bck)
+1.file_handler
 
-
-
-▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-back end:
-context_manager
-...
-
-▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-front end:
-GUI
-...
-
-▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-utils:
-tools to unhate Java 
-...
-▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+	Uses DAO & Factory designer patterns
+	DAO for handling the data out of the 
+	csv file, then factory for the 
+	initializations.
 
 
 
 
 
+
+
+
+
+
+
+
+
+CODE DICTIONARY:
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+
+(bck)
+1.file_handler -> line 16
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+
+(fnt)
+1.GUI
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+
+(uti)
+1.print
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
