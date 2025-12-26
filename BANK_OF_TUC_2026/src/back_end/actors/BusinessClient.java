@@ -12,6 +12,18 @@ public class BusinessClient extends User {
         this.vatNumber = vatNumber;
         this.representative = representative;
     }
+
+     public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getVatNumber() {
+        return vatNumber;
+    }
+
+    public String getRepresentative() {
+        return representative;
+    }
     
     @Override
     public void viewAccountBalance() {
@@ -34,15 +46,15 @@ public class BusinessClient extends User {
     public void performBulkPayment() {
         System.out.println("Μαζική πληρωμή από " + companyName);
     }
-    public String getCompanyName() {
-        return companyName;
+   
+    @Override
+    public String toString() {
+        return "BusinessClient{" +
+               "username='" + getUsername() + '\'' +
+               ", companyName='" + getCompanyName() + '\'' +
+               ", vatNumber='" + getVatNumber() + '\'' +
+               ", representative='" + getRepresentative() + '\'' +
+               '}';
     }
 
-    public String getVatNumber() {
-        return vatNumber;
-    }
-
-    public String getRepresentative() {
-        return representative;
-    }
 }
