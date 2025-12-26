@@ -29,4 +29,11 @@ public class BankStaff extends User {
     public void assistClient(String clientUsername) {
         System.out.println("Υποστήριξη πελάτη " + clientUsername + " από " + department);
     }
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
 }
