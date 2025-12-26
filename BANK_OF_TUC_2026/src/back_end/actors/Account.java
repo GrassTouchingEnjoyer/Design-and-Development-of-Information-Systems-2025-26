@@ -1,90 +1,158 @@
-package back_end.actors;
+package back_end.model;
 
 /**
- *Κλάση Λογαριασμού με Builder Pattern
+ *Τραπεζικός λογαριασμός
  * 
- *Χρησιμοποιείται για την ασφαλή και ευέλικτη δημιουργία λογαριασμών
- *με υποχρεωτικά και προαιρετικά πεδία.
+ *Η κλάση αναπαριστά έναν τραπεζικό λογαριασμό του συστήματος Bank Of TUC.
+ *Χρησιμοποιεί το Builder Design Pattern για ευέλικτη και ασφαλή δημιουργία αντικειμένων.
+ * 
+ *Σημαντικές επιλογές σχεδίασης:
+ *- Τα πεδία accountId, ownerUsername και type είναι final → δεν αλλάζουν ποτέ μετά τη δημιουργία.
+ *- Το υπόλοιπο ξεκινάει πάντα από 0.0 (σύμφωνα με την τελευταία σας απόφαση).
+ *- Το αρχικό υπόλοιπο (αν υπάρχει) προστίθεται μετά τη δημιουργία με deposit().
+ *- Αυτό επιτρέπει καλύτερο διαχωρισμό: η δημιουργία λογαριασμού είναι ξεχωριστή από την αρχικοποίηση υπολοίπου.
  */
 public class Account {
-    private final String accountId;      //Υποχρεωτικό
-    private final String ownerUsername;  //Υποχρεωτικό
-    private final double initialBalance; //Προαιρετικό (default 0.0)
-    private final String type;           //Προαιρετικό (default "Current")
-    private final String currency;       //Σταθερό: EUR (από παραδοχές)
 
-    //Private constructor - μόνο ο Builder μπορεί να τον καλέσει
+    //Αμετάβλητα χαρακτηριστικά του λογαριασμού (immutable)
+    private final String accountId;         //Μοναδικός κωδικός λογαριασμού (π.χ. IBAN-like)
+    private final String ownerUsername;     //Username του κατόχου (σύνδεση με User)
+    private final String type;              //Τύπος λογαριασμού (Current, Savings, Business κ.λπ.)
+
+    //Μεταβλητό χαρακτηριστικό - αλλάζει με συναλλαγές
+    private double currentBalance = 0.0;    //Τρέχον υπόλοιπο. Ξεκινάει πάντα από μηδέν.
+
+    /**
+     *Ιδιωτικός constructor.
+     *Προσβάσιμος μόνο από τον εσωτερικό Builder για να εξασφαλίσουμε σωστή δημιουργία.
+     */
     private Account(AccountBuilder builder) {
         this.accountId = builder.accountId;
         this.ownerUsername = builder.ownerUsername;
-        this.initialBalance = builder.initialBalance;
         this.type = builder.type;
-        this.currency = "EUR";
     }
 
-    // Getters
-    public String getAccountId() { return accountId; }
-    public String getOwnerUsername() { return ownerUsername; }
-    public double getBalance() { return initialBalance; } //Για απλότητα, εδώ στατικό υπόλοιπο
-    public String getType() { return type; }
-    public String getCurrency() { return currency; }
+    //========================= GETTERS =========================
 
-    //Μέθοδοι συναλλαγών (για demo)
-    private double balance = initialBalance;
+    /**
+     *Επιστρέφει τον κωδικό του λογαριασμού.
+     */
+    public String getAccountId() {
+        return accountId;
+    }
+
+    /**
+     * Επιστρέφει το username του κατόχου.
+     */
+    public String getOwnerUsername() {
+        return ownerUsername;
+    }
+
+    /**
+     *Επιστρέφει το τρέχον υπόλοιπο.
+     */
+    public double getCurrentBalance() {
+        return currentBalance;
+    }
+
+    /**
+     *Επιστρέφει τον τύπο του λογαριασμού.
+     */
+    public String getType() {
+        return type;
+    }
+
+    //========================= ΣΥΝΑΛΛΑΓΕΣ =========================
+
+    /**
+     *Εκτελεί κατάθεση ποσού στον λογαριασμό.
+     * 
+     *@param amount το ποσό που κατατίθεται (πρέπει να είναι > 0)
+     */
     public void deposit(double amount) {
-        balance += amount;
-        System.out.println("Κατάθεση " + amount + "€ στον λογαριασμό " + accountId);
-    }
-    public void withdraw(double amount) {
-        if (amount <= balance) {
-            balance -= amount;
-            System.out.println("Ανάληψη " + amount + "€ από τον λογαριασμό " + accountId);
+        if (amount > 0) {
+            currentBalance += amount;
+            System.out.println("✔ Κατάθεση " + amount + " € στον λογαριασμό " + accountId +
+                               " | Νέο υπόλοιπο: " + currentBalance + " €");
         } else {
-            System.out.println("Ανεπαρκές υπόλοιπο!");
+            System.out.println("✖ Μη έγκυρο ποσό κατάθεσης (πρέπει να είναι θετικό)");
         }
     }
-    public double getCurrentBalance() { return balance; }
 
-    //Εμφάνιση πληροφοριών
+    /**
+     *Εκτελεί ανάληψη ποσού από τον λογαριασμό.
+     * 
+     *@param amount το ποσό που αναλαμβάνεται (πρέπει να είναι > 0 και <= τρέχον υπόλοιπο)
+     */
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= currentBalance) {
+            currentBalance -= amount;
+            System.out.println("✔ Ανάληψη " + amount + " € από τον λογαριασμό " + accountId +
+                               " | Νέο υπόλοιπο: " + currentBalance + " €");
+        } else if (amount <= 0) {
+            System.out.println("✖ Μη έγκυρο ποσό ανάληψης (πρέπει να είναι θετικό)");
+        } else {
+            System.out.println("✖ Ανεπαρκές υπόλοιπο για ανάληψη " + amount + " €");
+        }
+    }
+
+    /**
+     *Επιστρέφει string αναπαράσταση του λογαριασμού (χρήσιμο για debugging / logging).
+     */
     @Override
     public String toString() {
         return "Account{" +
-                "id='" + accountId + '\'' +
-                ", owner='" + ownerUsername + '\'' +
-                ", balance=" + balance +
-                ", type='" + type + '\'' +
-                ", currency='" + currency + '\'' +
-                '}';
+               "accountId='" + accountId + '\'' +
+               ", ownerUsername='" + ownerUsername + '\'' +
+               ", currentBalance=" + currentBalance +
+               ", type='" + type + '\'' +
+               '}';
     }
 
-    //==================== BUILDER CLASS ====================
-    public static class AccountBuilder {
-        private final String accountId;         //Υποχρεωτικό
-        private final String ownerUsername;     //Υποχρεωτικό
-        private double initialBalance = 0.0;    //Προαιρετικό
-        private String type = "Current";        //Προαιρετικό
+    //===================== BUILDER PATTERN =====================
 
-        //Constructor με υποχρεωτικά πεδία
+    /**
+     *Εσωτερική στατική κλάση που υλοποιεί το Builder Design Pattern.
+     *Επιτρέπει fluent και ασφαλή δημιουργία Account αντικειμένων.
+     */
+    public static class AccountBuilder {
+
+        //Υποχρεωτικά πεδία
+        private final String accountId;
+        private final String ownerUsername;
+
+        //Προαιρετικό πεδίο με default τιμή
+        private String type = "Current";
+
+        /**
+         *Constructor του Builder με τα υποχρεωτικά πεδία.
+         * 
+         *@param accountId      μοναδικός κωδικός λογαριασμού
+         *@param ownerUsername  username του κατόχου
+         */
         public AccountBuilder(String accountId, String ownerUsername) {
             this.accountId = accountId;
             this.ownerUsername = ownerUsername;
         }
 
-        //Προαιρετικές μέθοδοι (fluent interface)
-        public AccountBuilder initialBalance(double balance) {
-            this.initialBalance = balance;
-            return this;
-        }
-
+        /**
+         *Ορίζει τον τύπο λογαριασμού (fluent method).
+         * 
+         *@param type ο τύπος (π.χ. "Savings", "Business")
+         *@return ο ίδιος ο Builder για chaining
+         */
         public AccountBuilder type(String type) {
-            this.type = type; //π.χ. "Savings", "Business", "Current"
+            this.type = type;
             return this;
         }
 
-        //Τελική μέθοδος δημιουργίας
+        /**
+         *Δημιουργεί και επιστρέφει το τελικό Account αντικείμενο.
+         * 
+         *@return νέο Account με τις τιμές που ορίστηκαν
+         */
         public Account build() {
             return new Account(this);
         }
     }
 }
-
