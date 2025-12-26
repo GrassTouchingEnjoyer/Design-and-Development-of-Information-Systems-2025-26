@@ -54,4 +54,14 @@ public abstract class User {
     public boolean isAuthenticated() {
         return authenticated;
     }
+
+    @Override
+    public String toString() {
+    return getClass().getSimpleName() + "{" +
+           "username='" + username + '\'' +
+           ", authenticated=" + authenticated +
+           ", accountsCount=" + accounts.size() +
+           '}';
+     }
+
 }
