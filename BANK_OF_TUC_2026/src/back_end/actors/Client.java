@@ -12,15 +12,6 @@ public abstract class Client extends User {
         this.afm = afm;
         this.phone = phone;
     }
-    
-    @Override
-    public void viewAccountBalance() {
-        System.out.println("Πελάτης: " + fullName);
-        for (Account acc : accounts) {
-            System.out.println("   Λογαριασμός " + acc.getAccountId() + ": " + acc.getBalance() + " €");
-        }
-    }
-    
     public String getFullName() {
         return fullName;
     }
@@ -34,6 +25,16 @@ public abstract class Client extends User {
     }
     
     @Override
+    public void viewAccountBalance() {
+        System.out.println("Πελάτης: " + fullName);
+        for (Account acc : accounts) {
+            System.out.println("   Λογαριασμός " + acc.getAccountId() + ": " + acc.getBalance() + " €");
+        }
+    }
+    
+    
+    
+    @Override
     public void performTransaction(double amount, String transactionType) {
         System.out.println(fullName + " → " + transactionType + ": " + amount + " €");
     }
@@ -44,4 +45,5 @@ public abstract class Client extends User {
     }
 
     
+
 }
