@@ -21,16 +21,6 @@ public abstract class Client extends User {
         }
     }
     
-    @Override
-    public void performTransaction(double amount, String transactionType) {
-        System.out.println(fullName + " → " + transactionType + ": " + amount + " €");
-    }
-    
-    @Override
-    public void viewTransactionHistory() {
-        System.out.println("Ιστορικό συναλλαγών για " + fullName);
-    }
-
     public String getFullName() {
         return fullName;
     }
@@ -42,4 +32,16 @@ public abstract class Client extends User {
     public String getPhone() {
         return phone;
     }
+    
+    @Override
+    public void performTransaction(double amount, String transactionType) {
+        System.out.println(fullName + " → " + transactionType + ": " + amount + " €");
+    }
+    
+    @Override
+    public void viewTransactionHistory() {
+        System.out.println("Ιστορικό συναλλαγών για " + fullName);
+    }
+
+    
 }
