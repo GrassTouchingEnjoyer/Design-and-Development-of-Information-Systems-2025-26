@@ -30,4 +30,16 @@ public abstract class Client extends User {
     public void viewTransactionHistory() {
         System.out.println("Ιστορικό συναλλαγών για " + fullName);
     }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getAfm() {
+        return afm;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
 }
