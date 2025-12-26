@@ -35,4 +35,16 @@ public abstract class Administrator extends User {
     public void generateFeeReport() {
         System.out.println("Αναφορά εσόδων από προμήθειες");
     }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getManagementLevel() {
+        return managementLevel;
+    }
 }
