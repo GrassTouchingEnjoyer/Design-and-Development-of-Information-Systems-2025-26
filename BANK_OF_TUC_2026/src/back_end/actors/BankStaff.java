@@ -10,6 +10,13 @@ public class BankStaff extends User {
         this.employeeId = employeeId;
         this.department = department;
     }
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
     
     @Override
     public void viewAccountBalance() {
@@ -29,11 +36,14 @@ public class BankStaff extends User {
     public void assistClient(String clientUsername) {
         System.out.println("Υποστήριξη πελάτη " + clientUsername + " από " + department);
     }
-    public String getEmployeeId() {
-        return employeeId;
-    }
+    
+    @Override
+    public String toString() {
+    return "BankStaff{" +
+           "username='" + getUsername() + '\'' +
+           ", employeeId='" + getEmployeeId() + '\'' +
+           ", department='" + getDepartment() + '\'' +
+           '}';
+}
 
-    public String getDepartment() {
-        return department;
-    }
 }
